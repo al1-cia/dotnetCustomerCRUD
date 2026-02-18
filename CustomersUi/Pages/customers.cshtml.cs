@@ -12,7 +12,22 @@ public class CustomersModel : PageModel
     {
         _http = factory.CreateClient("api");
     }
+    public async Task<IActionResult> OnPostBlockAsync(int id)
+    {
+        var response = await _http.PutAsync($"/customers/block/{id}", null); //called when form is posted. Goes to Controller.
+        if (response.IsSuccessStatusCode)
+        {
+            // optionally read the API JSON message
+            var content = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(content); // { "message": "Customer blocked successfully" }
+        }
+        else
+        {
+            Console.WriteLine($"failed to block {response.StatusCode}");
+        }
+        return RedirectToPage();
 
+    }
     public async Task OnGetAsync()
     {
         Customers = await _http.GetFromJsonAsync<List<Customer>>(
@@ -20,7 +35,7 @@ public class CustomersModel : PageModel
     }
     public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
-        await _http.DeleteAsync($"/customers/{id}");
+        await _http.DeleteAsync($"/customers/{id}"); //called when form is posted. Goes to Controller.
 
         return RedirectToPage();
     }

@@ -18,6 +18,10 @@ else{
                 <input type="hidden" name="id" value="@c.Id" />
                 <button type="submit">Delete</button>
             </form>
+            <form method="post" asp-page-handler="Block">
+                <input type="hidden" name="id" value="@c.Id" />
+                <button type="submit">Block</button>
+            </form>
         </li>
     }
     S

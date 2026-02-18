@@ -32,13 +32,18 @@ public class CustomersRepository : ICustomersRepository
         return customer;
     }
 
-    public void BlockCustomer(int id)
+    public async Task<bool> BlockCustomerAsync(int id)
     {
-        var customer = _context.Customers.Find(id);
+        var customer = await _context.Customers.FindAsync(id);
         if (customer != null)
         {
             customer.IsBlocked = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
